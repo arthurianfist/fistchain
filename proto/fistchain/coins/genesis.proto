@@ -1,0 +1,12 @@
+syntax = "proto3";
+package fistchain.coins;
+
+import "gogoproto/gogo.proto";
+import "fistchain/coins/params.proto";
+
+option go_package = "fistchain/x/coins/types";
+
+// GenesisState defines the coins module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+}
