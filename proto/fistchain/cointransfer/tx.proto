@@ -1,0 +1,7 @@
+syntax = "proto3";
+package fistchain.cointransfer;
+
+option go_package = "fistchain/x/cointransfer/types";
+
+// Msg defines the Msg service.
+service Msg {}

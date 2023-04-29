@@ -109,6 +109,9 @@ import (
 	coinsmodule "fistchain/x/coins"
 	coinsmodulekeeper "fistchain/x/coins/keeper"
 	coinsmoduletypes "fistchain/x/coins/types"
+	cointransfermodule "fistchain/x/cointransfer"
+	cointransfermodulekeeper "fistchain/x/cointransfer/keeper"
+	cointransfermoduletypes "fistchain/x/cointransfer/types"
 	fistchainmodule "fistchain/x/fistchain"
 	fistchainmodulekeeper "fistchain/x/fistchain/keeper"
 	fistchainmoduletypes "fistchain/x/fistchain/types"
@@ -173,6 +176,7 @@ var (
 		fistchainmodule.AppModuleBasic{},
 		addressesmodule.AppModuleBasic{},
 		coinsmodule.AppModuleBasic{},
+		cointransfermodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
 
@@ -251,6 +255,8 @@ type App struct {
 	AddressesKeeper addressesmodulekeeper.Keeper
 
 	CoinsKeeper coinsmodulekeeper.Keeper
+
+	CointransferKeeper cointransfermodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// mm is the module manager
@@ -298,6 +304,7 @@ func New(
 		fistchainmoduletypes.StoreKey,
 		addressesmoduletypes.StoreKey,
 		coinsmoduletypes.StoreKey,
+		cointransfermoduletypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -533,6 +540,14 @@ func New(
 	)
 	coinsModule := coinsmodule.NewAppModule(appCodec, app.CoinsKeeper, app.AccountKeeper, app.BankKeeper)
 
+	app.CointransferKeeper = *cointransfermodulekeeper.NewKeeper(
+		appCodec,
+		keys[cointransfermoduletypes.StoreKey],
+		keys[cointransfermoduletypes.MemStoreKey],
+		app.GetSubspace(cointransfermoduletypes.ModuleName),
+	)
+	cointransferModule := cointransfermodule.NewAppModule(appCodec, app.CointransferKeeper, app.AccountKeeper, app.BankKeeper)
+
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	/**** IBC Routing ****/
@@ -601,6 +616,7 @@ func New(
 		fistchainModule,
 		addressesModule,
 		coinsModule,
+		cointransferModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -633,6 +649,7 @@ func New(
 		fistchainmoduletypes.ModuleName,
 		addressesmoduletypes.ModuleName,
 		coinsmoduletypes.ModuleName,
+		cointransfermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	)
 
@@ -660,6 +677,7 @@ func New(
 		fistchainmoduletypes.ModuleName,
 		addressesmoduletypes.ModuleName,
 		coinsmoduletypes.ModuleName,
+		cointransfermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	)
 
@@ -692,6 +710,7 @@ func New(
 		fistchainmoduletypes.ModuleName,
 		addressesmoduletypes.ModuleName,
 		coinsmoduletypes.ModuleName,
+		cointransfermoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
@@ -724,6 +743,7 @@ func New(
 		fistchainModule,
 		addressesModule,
 		coinsModule,
+		cointransferModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 	app.sm.RegisterStoreDecoders()
@@ -931,6 +951,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(fistchainmoduletypes.ModuleName)
 	paramsKeeper.Subspace(addressesmoduletypes.ModuleName)
 	paramsKeeper.Subspace(coinsmoduletypes.ModuleName)
+	paramsKeeper.Subspace(cointransfermoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper
