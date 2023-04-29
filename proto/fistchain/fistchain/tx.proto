@@ -1,0 +1,7 @@
+syntax = "proto3";
+package fistchain.fistchain;
+
+option go_package = "fistchain/x/fistchain/types";
+
+// Msg defines the Msg service.
+service Msg {}

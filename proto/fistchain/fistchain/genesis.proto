@@ -1,0 +1,12 @@
+syntax = "proto3";
+package fistchain.fistchain;
+
+import "gogoproto/gogo.proto";
+import "fistchain/fistchain/params.proto";
+
+option go_package = "fistchain/x/fistchain/types";
+
+// GenesisState defines the fistchain module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+}
