@@ -3,7 +3,7 @@ module github.com/arthurianfist/fistchain
 go 1.20
 
 require (
-    github.com/cosmos/cosmos-sdk v0.47.2
+	github.com/cosmos/cosmos-sdk v0.47.2
 	cosmossdk.io/errors v1.0.0-beta.7 // indirect
 	cosmossdk.io/math v1.0.1 // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
